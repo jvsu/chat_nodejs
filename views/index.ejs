@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Welcome</title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style>
+    	input{
+    		display:block;
+        margin:5px;
+    	}
+      .center_container{
+        position:relative;
+      }
+    	#sign_in{
+          width: 20%;
+           margin: auto;
+           margin-top:200px;
+    	}
+      #user_name{
+        height:30px;
+        width:250px;
+        border-color:#E8E8E8;
+        background-color:#F8F8F8;
+      }
+   
+      body{
+        background-color:#F8F8F8;
+      }
+      h1{
+        margin:10px;
+
+      }
+      #sub{
+        margin-left:185px;
+      }
+
+   	</style>
+  </head>
+  <body>
+
+   <div id='sign_in'>
+    <img src="/images/chat_logo.png">
+    <form action='/login' method='post'>
+      <input id='user_name' type='text' name='name' placeholder='Enter Name'>
+      <input type='submit' value='Submit' id='sub' class='btn btn-success'>
+    </form>
+  </div>
+ 
+  </body>
+</html>

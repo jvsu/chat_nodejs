@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chat</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    	<!-- Import Ajax -->
+    	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> 
+    	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    	<script src="/socket.io/socket.io.js"></script>
+   	<script type="text/javascript">
+   		$(document).ready(function(){
+   			io = io.connect();
+   			$('#sub').click(function(){
+   				// when someone clicks the sub button it is going to get the value from textarea with id=message
+   				var message = $('#message').val();
+   				// send the info through and emit
+   				io.emit('umessage',{message:message}) // send the the message from the user to be processed by ex
+   				$('#message').val(''); // after the click set the value of this button to empty
+   			})
+
+   			io.on('chat',function(data){
+   				// basically look for the broadcast message marked as chat
+   				$('#window').append("<p class='chat'><span>"+data.user_data.name+": </span>"+data.new_message+"</p>");
+   			})
+
+   			io.on('new_user',function(data){
+   				$('#window').append("<p class='join'>"+data.name+" Just Joined the Chat </p>");
+   				$('#users ul').append("<li>"+data.name+"</li>");
+		})
+  })//end of document.ready
+      $(document).on('click','#logoff',function(){
+            io.emit('logoff');
+      });
+   	</script>
+
+    <style type="text/css">
+      img{
+
+      }
+    	textarea, input {
+    		display:block;
+    	}
+    	#window{
+    		width:200px;
+    		height:400px;
+    		overflow:scroll;
+    		border:1px solid black;
+    		display: inline-block;
+    	}
+    	h1{
+    		text-transform:capitalize;
+    	}
+    	#message{
+    		width:300px;
+        height:30px;
+        border-radius: 5px;
+    	}
+    	.join{
+    		font-size:10px;
+    		color:blue;
+    		text-transform: capitalize;
+        margin:5px;
+    	}
+    	.chat{
+    		font-size:10px;
+        margin:5px;
+    	}
+    	#users{
+    		display:inline-block;
+    		vertical-align: top;
+    		width:100px;
+    		height:100px;
+    	}
+      #chat{
+        width:25%;
+        margin-left:auto;
+        margin-right:auto;
+      }
+
+    	#users ul{
+    		border:1px black solid;
+    		width:100px;
+    		height:100px;
+    		overflow:scroll;
+    		padding-left: 0px;
+    	}
+    	#window{
+    		display: inline-block;
+        width:400px;
+        overflow:auto;
+        background-color:white;
+    	}
+      body{
+        background-color:#F8F8F8;
+      }
+      #sub{
+        margin-top:5px;
+        margin-left:230px;
+      }
+    	#both{
+        width:30%;
+        margin-left:auto;
+        margin-right:auto;
+      }
+      #chat_header{
+        /*width:300px;*/
+        width:35%;
+        margin-left:auto;
+        margin-right:auto;
+        border-bottom:1px solid black;
+      }
+      span{
+        text-transform: capitalize;
+      }
+
+      #welcome{
+        float:right;
+      }
+    </style> 
+  </head>
+  <body>
+    <img src="/images/chat_logo.png">
+    <!-- Create Header with the users name -->
+    <!-- <h1>Welcome <%= name %></h1>  -->
+    <!-- This is where you collect the users chat message -->
+    <div id='welcome'>
+      <p>Welcome<span> <%= name %></span></p>
+      <a href="/log_off" id='logoff'>Logoff</a>
+    </div>
+     <h3 id='chat_header'>Chat Room:</h3>
+	  <div id='both'> 
+	    <div id='window'>
+	    </div>
+	    <!-- <div id='users'>
+	    <h5>Users:</h5>
+	    	<ul></ul>
+	    </div> -->
+	 </div>
+     <div id='chat'> 
+        <h5>Say Something:</h5>
+        <textarea id='message'></textarea>
+        <input id='sub' type='submit' value='Submit' class='btn btn-success'>
+    </div>
+
+
+
+   </body>
+</html>
